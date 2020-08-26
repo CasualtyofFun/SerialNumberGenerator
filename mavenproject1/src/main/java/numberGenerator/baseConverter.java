@@ -1,10 +1,10 @@
 package numberGenerator;
 
-public class baseConverter {
+public class BaseConverter {
 
     int base;
 
-    public baseConverter(int base) {
+    public BaseConverter(int base) {
         this.base = base;
     }
 

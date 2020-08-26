@@ -1,35 +1,42 @@
 package numberGenerator;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 import org.apache.commons.lang.StringUtils;
 
 
 
-public class serialNumberGenerator {
+public class SerialNumberGenerator {
 
-    private baseConverter base;
-    private int largestNumber = 1679615;
+    private BaseConverter base;
+    private int jobNumber;
+    private LocalDate date;
+    private ArrayList<String> randomPostfixes;
+    private int randomPostfixesIndex;
+    public static final int LARGEST_NUMBER = 1679615;
     
-    public serialNumberGenerator() {
-        base = new baseConverter(36);
-        
+    public SerialNumberGenerator(int jobNumber, LocalDate date) {
+        this.jobNumber = jobNumber;
+        this.date = date;
+        randomPostfixes = generatePossiblePosfix();
+        Collections.shuffle(randomPostfixes);
+        randomPostfixesIndex = 0;
+        base = new BaseConverter(36);
     }
     
-    public String generateSerialNumber(int jobNumber, LocalDate date){
+    public String generateSerialNumber(){
         StringBuilder b = new StringBuilder();
         b.append(this.generateJobPrefix(jobNumber));
-        System.out.println("After Job Prefix there are " + b.toString().length()+ " characters");
         b.append(this.generateDatePrefix(date));
-        System.out.println("After Date Prefix there are " + b.toString().length()+ " characters");
-        b.append(this.generateRandomPostfix());
-        System.out.println("After Postfix there are " + b.toString().length()+ " characters");
+        b.append(this.getNextPostfix());
         return b.toString();
     }
     
     private String generateRandomPostfix(){
         Random rand = new Random();
-        int r = rand.nextInt(largestNumber);   
+        int r = rand.nextInt(LARGEST_NUMBER);   
         return base.fromDeci(r);
     }
 
@@ -43,14 +50,31 @@ public class serialNumberGenerator {
         return s;
     }
     
+    private String getNextPostfix(){
+        randomPostfixesIndex++;
+        return randomPostfixes.get(randomPostfixesIndex);
+    }
+    
+    private static ArrayList<String> generatePossiblePosfix() {
+        BaseConverter base36 = new BaseConverter(36);
+        ArrayList<String> postfixes = new ArrayList<String>();
+        String s;
+
+        for (int i = 0; i < LARGEST_NUMBER; i++) {
+            s = base36.fromDeci(i);
+            if (s.length() < 5) {
+                s = StringUtils.leftPad(s, 5).replace(" ", "0");
+            }
+            postfixes.add(s);
+        }
+        return postfixes;
+    }
+    
+    
     private int dateToUseable(LocalDate date){
         int month = date.getMonthValue(); int day = date.getDayOfMonth(); int year = date.getYear();
-        System.out.println(day);
-        System.out.println(month);
-        System.out.println(year);
         StringBuilder b = new StringBuilder();
-        year = year - 2000;
-        System.out.println(year);
+        year -= 2000;
         b.append(month); b.append(day); b.append(year);
         return Integer.parseInt(b.toString());
     }
@@ -62,7 +86,4 @@ public class serialNumberGenerator {
         return s;
     }
     
-    
-    
-
 }

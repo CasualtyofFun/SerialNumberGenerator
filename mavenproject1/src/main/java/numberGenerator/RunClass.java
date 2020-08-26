@@ -10,42 +10,24 @@ import org.apache.commons.lang.StringUtils;
 public class RunClass {
 
     private SerialNumberGenerator generator;
-    private ArrayList<String> possibleSerialNumbers;
-    private ArrayList<String> shuffledArray;
-
+    private ArrayList<String> serialNumberList;
+    
     private final static Logger LOGGER
             = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     public RunClass(int jobNumber, LocalDate date) {
         generator = new SerialNumberGenerator(jobNumber, date);
-        possibleSerialNumbers = new ArrayList<String>();
-        this.intializePossibleSerialNumbers();
-        this.initializeShuffledArray();
+        serialNumberList = new ArrayList<String>();
      }
-
-    private void initializeShuffledArray() {
-        shuffledArray = (ArrayList)possibleSerialNumbers.clone();
-        Collections.shuffle(shuffledArray);
-    }
-
-    private void intializePossibleSerialNumbers() {
-        BaseConverter base36 = new BaseConverter(36);
-        String s;
-
-        for (int i = 0; i < generator.LARGEST_NUMBER; i++) {
-            s = base36.fromDeci(i);
-            if (s.length() < 5) {
-                s = StringUtils.leftPad(s, 5).replace(" ", "0");
-            }
-            possibleSerialNumbers.add(s);
+    
+    
+    public ArrayList<String> generateXSerialNumbers(int quantity){
+        
+        for(int i = 0; i < quantity; i++){
+           serialNumberList.add(generator.generateSerialNumber());
         }
+        return serialNumberList;
     }
-    
-    public void printArray(ArrayList ar){
-        LOGGER.log(Level.INFO, Integer.toString(ar.size()));
-        LOGGER.log(Level.INFO, ar.toString());
-    }
-    
     
     public SerialNumberGenerator getSerialNumberGenerator(){
         return generator;
