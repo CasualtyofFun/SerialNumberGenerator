@@ -15,6 +15,7 @@ public class SerialNumberGenerator {
     private LocalDate date;
     private ArrayList<String> randomPostfixes;
     private int randomPostfixesIndex;
+    
     public static final int LARGEST_NUMBER = 1679615;
     
     public SerialNumberGenerator(int jobNumber, LocalDate date) {
@@ -78,6 +79,8 @@ public class SerialNumberGenerator {
         b.append(month); b.append(day); b.append(year);
         return Integer.parseInt(b.toString());
     }
+    
+        
     
     private String generateDatePrefix(LocalDate date) {
 
