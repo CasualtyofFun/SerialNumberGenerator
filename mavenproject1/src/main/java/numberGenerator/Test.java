@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 import numberGenerator.DataValidation.InputValidator;
+import GUI.InterfaceFrame;
 
 /**
  *
@@ -17,8 +18,9 @@ public class Test {
        int testJobNumber = 99999999;
        int testQuantity = 500;
        LocalDate testDate = LocalDate.now();
-       //ListWriter writer = new ListWriter("C:");
+       ListWriter writer = new ListWriter("C:\\Users\\GuestLogin\\Desktop\\test.csv");
        BaseConverter base = new BaseConverter(36);
+       InterfaceFrame frame = new InterfaceFrame();
        
        Scanner sc = new Scanner(System.in);
        
@@ -34,15 +36,13 @@ public class Test {
        inputIsValid = validator.validateQuantityInput(testQuantity);
        }while(!inputIsValid);
        
-       
-       SerialNumberGenerator gen = new SerialNumberGenerator(testJobNumber, testDate);
        RunClass runClass = new RunClass(testJobNumber, testDate);
        
        ArrayList<String> testArray = runClass.generateXSerialNumbers(testQuantity);
        System.out.println(testArray.size());
        System.out.println(testArray.toString());
        
-       //writer.writeListToFile(testArray);
+       writer.writeListToFile(testArray);
 }
     
 }
