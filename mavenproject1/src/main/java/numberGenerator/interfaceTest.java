@@ -6,8 +6,11 @@
 package numberGenerator;
 
 import GUI.InterfaceFrame;
+import java.io.File;
 import java.time.LocalDate;
+import javax.swing.JFrame;
 import numberGenerator.DataValidation.InputValidator;
+import org.jdatepicker.*;
 
 
 public class interfaceTest {
@@ -17,14 +20,12 @@ public class interfaceTest {
 
     public static void main(String args[]) {
         
-        InputValidator validator = new InputValidator();
-        int testJobNumber = 99999999;
-        int testQuantity = 500;
-        LocalDate testDate = LocalDate.now();
-        ListWriter writer = new ListWriter("C:\\Users\\GuestLogin\\Desktop\\test.csv");
-        BaseConverter base = new BaseConverter(36);
-
+        File file;
+        ListWriter writer;
+ 
         initFrame();
+        
+       
         
                
     }

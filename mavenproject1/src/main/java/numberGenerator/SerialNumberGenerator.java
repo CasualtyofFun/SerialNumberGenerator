@@ -2,7 +2,9 @@ package numberGenerator;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Random;
 import org.apache.commons.lang.StringUtils;
 
@@ -25,12 +27,13 @@ public class SerialNumberGenerator {
         Collections.shuffle(randomPostfixes);
         randomPostfixesIndex = 0;
         base = new BaseConverter(36);
-    }
+        
+        }
     
     public String generateSerialNumber(){
         StringBuilder b = new StringBuilder();
         b.append(this.generateJobPrefix(jobNumber));
-        b.append(this.generateDatePrefix(date));
+        b.append(this.generateDatePrefix());
         b.append(this.getNextPostfix());
         return b.toString();
     }
@@ -82,7 +85,7 @@ public class SerialNumberGenerator {
     
         
     
-    private String generateDatePrefix(LocalDate date) {
+    private String generateDatePrefix() {
 
         String s = base.fromDeci(dateToUseable(date));
         

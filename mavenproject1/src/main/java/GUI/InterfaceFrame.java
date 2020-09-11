@@ -6,14 +6,13 @@ import javax.swing.JFileChooser;
 import numberGenerator.DataValidation.InputValidator;
 import numberGenerator.ListWriter;
 import numberGenerator.RunClass;
+import org.jdatepicker.*;
 
 public class InterfaceFrame extends javax.swing.JFrame {
 
     private final InputValidator validator = new InputValidator();
     private final JFileChooser fileChooser = new JFileChooser();
-    ListWriter writer = new ListWriter("C:\\Users\\GuestLogin\\Desktop\\test.csv");
-    private String fileExtention = ("test.csv");
-    private File file = new File("C\\:");
+    ListWriter writer;
     
     public InterfaceFrame() {
         initComponents();
@@ -34,9 +33,9 @@ public class InterfaceFrame extends javax.swing.JFrame {
         jTextField2 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
         jLabel3 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        jDatePicker1 = new org.jdatepicker.JDatePicker(new UtilCalendarModel());
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAutoRequestFocus(false);
@@ -66,19 +65,18 @@ public class InterfaceFrame extends javax.swing.JFrame {
 
         jLabel2.setText("Quantity of Serial Numbers");
 
-        jFormattedTextField1.setText("jFormattedTextField1");
-        jFormattedTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jFormattedTextField1ActionPerformed(evt);
-            }
-        });
-
         jLabel3.setText("Date");
 
         jButton2.setText("Browse...");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
+            }
+        });
+
+        jDatePicker1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jDatePicker1ActionPerformed(evt);
             }
         });
 
@@ -89,13 +87,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jobNumberTextField, javax.swing.GroupLayout.Alignment.LEADING)
@@ -104,19 +95,26 @@ public class InterfaceFrame extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton2)
                             .addComponent(jButton1))
-                        .addGap(40, 40, 40))))
+                        .addGap(40, 40, 40))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jDatePicker1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(7, 7, 7)
                 .addComponent(jobNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(jDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -134,15 +132,20 @@ public class InterfaceFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
-        if(validator.validateJobPrefix(jobNumberTextField.getText())){
-          
-            if(validator.validateQuantityInput(jTextField2.getText())){
-                RunClass rc = new RunClass(Integer.parseInt(jobNumberTextField.getText()), LocalDate.now());
-                writer.writeListToFile(rc.generateXSerialNumbers(Integer.parseInt(jTextField2.getText())));                
-            }; 
         
-        }else{ 
+        
+        
+        if(validateInputs()){
             
+        int day = this.jDatePicker1.getModel().getDay();
+        int month = this.jDatePicker1.getModel().getMonth();
+        int year = this.jDatePicker1.getModel().getYear();
+        
+        LocalDate date = LocalDate.of(year, month, day);
+                
+        RunClass rc = new RunClass(Integer.parseInt(jobNumberTextField.getText()), date);
+        writer.setDir(writer.getDir() + this.jobNumberTextField.getText() + " - " + day + "//" + month + "//" + year);
+        writer.writeListToFile(rc.generateXSerialNumbers(Integer.parseInt(jTextField2.getText())));
         }
                
         
@@ -156,15 +159,16 @@ public class InterfaceFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
 
-    private void jFormattedTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jFormattedTextField1ActionPerformed
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        fileChooser.showOpenDialog(this);    
-        jFormattedTextField1.setText(fileChooser.getSelectedFile().getName());
+        
+        fileChooser.showOpenDialog(this);
+        writer = new ListWriter(fileChooser.getSelectedFile().getAbsolutePath());
        
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jDatePicker1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDatePicker1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jDatePicker1ActionPerformed
 
 
     public static void main(String args[]) {
@@ -205,7 +209,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
+    private org.jdatepicker.JDatePicker jDatePicker1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -216,5 +220,20 @@ public class InterfaceFrame extends javax.swing.JFrame {
     private void initTools() {
         fileChooser.setDialogTitle("Choose File Path");
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        writer = new ListWriter("C:\\");
+    }
+    
+    private boolean validateInputs(){
+        
+        if(validator.validateJobPrefix(jobNumberTextField.getText())){
+       
+            if(validator.validateQuantityInput(jTextField2.getText())){
+                return true;                
+            }; 
+        
+        }else{ 
+            return false;
+        }
+        return true;
     }
 }

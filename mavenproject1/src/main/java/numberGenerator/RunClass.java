@@ -18,7 +18,7 @@ public class RunClass {
     
     public ArrayList<String> generateXSerialNumbers(int quantity){
         
-        for(int i = 0; i <= quantity; i++){
+        for(int i = 0; i < quantity; i++){
            serialNumberList.add(generator.generateSerialNumber());
         }
         return serialNumberList;

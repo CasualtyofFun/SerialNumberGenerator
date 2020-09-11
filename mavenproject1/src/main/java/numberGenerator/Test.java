@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import numberGenerator.DataValidation.InputValidator;
 import GUI.InterfaceFrame;
+import java.time.Month;
 
 /**
  *
@@ -17,7 +18,7 @@ public class Test {
        InputValidator validator = new InputValidator();
        int testJobNumber = 99999999;
        int testQuantity = 500;
-       LocalDate testDate = LocalDate.now();
+      // LocalDate testDate = LocalDate.of(testQuantity, Month.MARCH, testQuantity)
        ListWriter writer = new ListWriter("C:\\Users\\GuestLogin\\Desktop\\test.csv");
        BaseConverter base = new BaseConverter(36);
        InterfaceFrame frame = new InterfaceFrame();
