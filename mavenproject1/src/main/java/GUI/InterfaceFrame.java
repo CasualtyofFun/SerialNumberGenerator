@@ -2,6 +2,8 @@ package GUI;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import numberGenerator.DataValidation.InputValidator;
 import numberGenerator.ListWriter;
@@ -12,7 +14,8 @@ public class InterfaceFrame extends javax.swing.JFrame {
 
     private final InputValidator validator = new InputValidator();
     private final JFileChooser fileChooser = new JFileChooser();
-    ListWriter writer;
+    private String dirBuilder = "";
+    Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     
     public InterfaceFrame() {
         initComponents();
@@ -142,10 +145,14 @@ public class InterfaceFrame extends javax.swing.JFrame {
         int year = this.jDatePicker1.getModel().getYear();
         
         LocalDate date = LocalDate.of(year, month, day);
-                
+        
+        dirBuilder += jobNumberTextField.getText() + " - " + day + month + year+".csv";
+        System.out.println("Writing to: " + dirBuilder);
+        ListWriter writer = new ListWriter(dirBuilder);
         RunClass rc = new RunClass(Integer.parseInt(jobNumberTextField.getText()), date);
-        writer.setDir(writer.getDir() + this.jobNumberTextField.getText() + " - " + day + "//" + month + "//" + year);
         writer.writeListToFile(rc.generateXSerialNumbers(Integer.parseInt(jTextField2.getText())));
+        
+        dirBuilder = fileChooser.getCurrentDirectory().toString()+"\\";
         }
                
         
@@ -162,7 +169,10 @@ public class InterfaceFrame extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         
         fileChooser.showOpenDialog(this);
-        writer = new ListWriter(fileChooser.getSelectedFile().getAbsolutePath());
+        dirBuilder = fileChooser.getCurrentDirectory().toString()+"\\";
+        
+        
+        
        
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -220,7 +230,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
     private void initTools() {
         fileChooser.setDialogTitle("Choose File Path");
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        writer = new ListWriter("C:\\");
+        dirBuilder = fileChooser.getCurrentDirectory().toString()+"\\";
     }
     
     private boolean validateInputs(){
