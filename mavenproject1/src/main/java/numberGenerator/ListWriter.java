@@ -5,53 +5,28 @@
  */
 package numberGenerator;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
 public class ListWriter {
-    
-    private FileWriter fileWriter;
-    
-    String dir;
 
-    public String getDir() {
-        return dir;
+    File path;
+
+    public ListWriter(File file) {
+        this.path = file;
     }
 
-    public void setDir(String dir) {
-        this.dir = dir;
-    }
-    
-    public ListWriter(String dir){
-        this.dir = dir;
-        try{
-        fileWriter = new FileWriter(dir);
-         }
-        catch(IOException e){
-            e.printStackTrace();
-        }
-    }
-    
-    public void writeListToFile(ArrayList<String> list){
-        
-        for(String s:list){
-            try{
-            fileWriter.write(s+"\n");
-            } catch (IOException e){
-                e.printStackTrace();
+    public void writeListToFile(ArrayList<String> list) {
+
+        try (FileWriter fileWriter = new FileWriter(path)) {
+            for (String s : list) {
+                fileWriter.write(s + "\n");
             }
-        
-           
-    } 
-        try{
-           fileWriter.close();
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
-    
     }
 
 }

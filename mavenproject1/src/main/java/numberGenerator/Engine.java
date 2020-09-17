@@ -6,28 +6,16 @@
 package numberGenerator;
 
 import GUI.InterfaceFrame;
-import java.io.File;
-import java.time.LocalDate;
-import javax.swing.JFrame;
-import numberGenerator.DataValidation.InputValidator;
-import org.jdatepicker.*;
 
-
-public class interfaceTest {
+public class Engine {
 
     private static String title = "LaunchWorks Serial Number Generator";
     private static InterfaceFrame frame;
 
     public static void main(String args[]) {
-        
-        File file;
-        ListWriter writer;
- 
+
         initFrame();
-        
-       
-        
-               
+
     }
 
     private static void initFrame() {
@@ -37,6 +25,5 @@ public class interfaceTest {
         frame.setResizable(false);
         frame.requestFocus();
     }
-;
 
 }
