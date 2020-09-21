@@ -21,6 +21,8 @@ public class ListWriter {
     public void writeListToFile(ArrayList<String> list) {
 
         try (FileWriter fileWriter = new FileWriter(path)) {
+            
+            fileWriter.write("Serial Number\n");
             for (String s : list) {
                 fileWriter.write(s + "\n");
             }

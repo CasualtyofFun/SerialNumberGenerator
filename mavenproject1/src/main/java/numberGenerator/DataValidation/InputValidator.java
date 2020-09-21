@@ -13,7 +13,7 @@ public class InputValidator {
     private final int LARGEST_JOB_NUMBER = 99999999;
     private final int SMALLEST_JOB_NUMBER = 0;
     private final int SMALLEST_QUANTITY = 0;
-    private final int LARGEST_QUANTITY = 1679615;
+    private final int LARGEST_QUANTITY = 1000000;
 
     private final static Logger LOGGER
             = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
